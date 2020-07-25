@@ -9,6 +9,11 @@ Features:
 
 Product page: https://www.bmr.cz/produkty/regulace-topeni/rnet
 
+## Install
+
+```
+pip install bmrcli
+```
 
 ## Usage
 
