@@ -20,13 +20,13 @@ pip install bmrcli
 To get the current config from the heating controller:
 
 ```
-bmrcli --url http://192.168.1.32 --username admin --password 1234 get
+bmrcli http://username@password:192.168.1.32 dump > bmr-config.yaml
 ```
 
 To load configuration into the heating controller:
 
 ```
-bmrcli --url http://192.168.1.32 --username admin --password 1234 apply
+bmrcli http://username@password:192.168.1.32 load < bmr-config.yaml
 ```
 
 # License
