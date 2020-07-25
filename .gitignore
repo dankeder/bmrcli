@@ -1,2 +1,5 @@
 *.sw[opn]
 __pycache__
+bmrcli.egg-info/
+build/
+dist/
