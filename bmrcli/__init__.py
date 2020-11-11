@@ -34,7 +34,7 @@ def parse_args():
     # Subcommand: pull
     cmd_pull = subparsers.add_parser("pull", help="Get current configuration from the BMR HC64 controller")
     cmd_pull.add_argument(
-        "-f", "--file", help="YAML configuration file", nargs="?", type=argparse.FileType("r"), default=sys.stdout
+        "-f", "--file", help="YAML configuration file", nargs="?", type=argparse.FileType("w"), default=sys.stdout
     )
     cmd_pull.set_defaults(func=handle_pull)
 
