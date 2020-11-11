@@ -1,0 +1,12 @@
+# 1.1.1
+
+* Fix a typo
+
+# 1.1.0
+
+* Rename subcommands "dump" and "load" to "push" and "pull"
+* Add argument `-f, --file` to subcommand "pull" for saving output directly into a file 
+
+# 1.0.1
+
+* Initial release

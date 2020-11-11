@@ -31,20 +31,23 @@ def parse_args():
     )
     subparsers = parser.add_subparsers()
 
-    # Subcommand: dump
-    cmd_dump = subparsers.add_parser("dump", help="Get current configuration from the BMR HC64 controller")
-    cmd_dump.set_defaults(func=handle_dump)
-
-    # Subcommand: load
-    cmd_load = subparsers.add_parser(
-        "load", help="Load configuration to the BMR HC64 controller from stdin or from a file"
+    # Subcommand: pull
+    cmd_pull = subparsers.add_parser("pull", help="Get current configuration from the BMR HC64 controller")
+    cmd_pull.add_argument(
+        "-f", "--file", help="YAML configuration file", nargs="?", type=argparse.FileType("r"), default=sys.stdout
     )
-    cmd_load.add_argument(
+    cmd_pull.set_defaults(func=handle_pull)
+
+    # Subcommand: push
+    cmd_push = subparsers.add_parser(
+        "push", help="Save configuration to the BMR HC64 controller from stdin or from a file"
+    )
+    cmd_push.add_argument(
         "-f", "--file", help="YAML configuration file", nargs="?", type=argparse.FileType("r"), default=sys.stdin
     )
-    cmd_load.add_argument("-v", "--verbose", help="Verbose mode", action="store_true")
-    cmd_load.add_argument("--dry-run", help="Dry-run mode (do not make any changes)", action="store_true")
-    cmd_load.set_defaults(func=handle_load)
+    cmd_push.add_argument("-v", "--verbose", help="Verbose mode", action="store_true")
+    cmd_push.add_argument("--dry-run", help="Dry-run mode (do not make any changes)", action="store_true")
+    cmd_push.set_defaults(func=handle_push)
 
     # Parse args and do some sanity checks
     args = parser.parse_args()
@@ -55,7 +58,7 @@ def parse_args():
     return args
 
 
-def handle_dump(args):
+def handle_pull(args):
     config_data = {"circuits": [], "circuit_schedules": [], "schedules": []}
 
     # Connect to BMR HC64 controller
@@ -95,10 +98,10 @@ def handle_dump(args):
     # Print YAML to stdout
     yaml = YAML()
     yaml.indent(mapping=2, sequence=4, offset=2)
-    yaml.dump(config_data, sys.stdout)
+    yaml.dump(config_data, args["file"])
 
 
-def handle_load(args):
+def handle_push(args):
     # Connect to BMR HC64 controller
     bmr = pybmr.Bmr(*parse_url(args["url"]))
 
