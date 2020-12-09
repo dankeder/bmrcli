@@ -72,17 +72,20 @@ def handle_pull(args):
 
     # Circuits and schedule assignments
     for circuit_id in range(bmr.getNumCircuits()):
-        circuit = bmr.getCircuit(circuit_id)
-        config_data["circuits"].append(
-            {
-                "id": circuit["id"],
-                "enabled": circuit["enabled"],
-                "name": circuit["name"],
-                "low_mode": low_mode_assignments[circuit_id],
-                "summer_mode": summer_mode_assignments[circuit_id],
-                "circuit_schedules": bmr.getCircuitSchedules(circuit_id),
-            }
-        )
+        try:
+            circuit = bmr.getCircuit(circuit_id)
+            config_data["circuits"].append(
+                {
+                    "id": circuit["id"],
+                    "enabled": circuit["enabled"],
+                    "name": circuit["name"],
+                    "low_mode": low_mode_assignments[circuit_id],
+                    "summer_mode": summer_mode_assignments[circuit_id],
+                    "circuit_schedules": bmr.getCircuitSchedules(circuit_id),
+                }
+            )
+        except Exception as e:
+            print("ERROR: {}".format(e), file=sys.stderr)
 
     # Schedules
     for schedule_id in range(len(bmr.getSchedules())):
