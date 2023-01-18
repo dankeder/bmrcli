@@ -29,6 +29,9 @@ def parse_args():
         type=str,
         default=os.getenv("BMRCLI_URL"),
     )
+    parser.add_argument(
+        "-t", "--timeout", help="Timeout for connecting to BMR [default: 10s]", nargs="?", type=int, default=10
+    )
     subparsers = parser.add_subparsers()
 
     # Subcommand: pull
@@ -62,7 +65,7 @@ def handle_pull(args):
     config_data = {"circuits": [], "circuit_schedules": [], "schedules": []}
 
     # Connect to BMR HC64 controller
-    bmr = pybmr.Bmr(*parse_url(args["url"]))
+    bmr = pybmr.Bmr(*parse_url(args["url"]), timeout=args["timeout"])
 
     # Low mode assignments
     low_mode_assignments = bmr.getLowModeAssignments()
@@ -106,7 +109,7 @@ def handle_pull(args):
 
 def handle_push(args):
     # Connect to BMR HC64 controller
-    bmr = pybmr.Bmr(*parse_url(args["url"]))
+    bmr = pybmr.Bmr(*parse_url(args["url"]), timeout=args["timeout"])
 
     # Parse YAML from stdin
     yaml = YAML()
