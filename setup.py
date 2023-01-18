@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="bmrcli",
-    version="1.1.3",
+    version="1.1.4",
     description="Command-line tool for BMR HC64 heating controller",
     long_description=long_description,
     long_description_content_type="text/markdown",
